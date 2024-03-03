@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ManagedBass.ReplayGain": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

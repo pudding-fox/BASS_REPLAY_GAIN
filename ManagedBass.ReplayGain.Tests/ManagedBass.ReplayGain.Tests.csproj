@@ -1,0 +1,117 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net40;net461</TargetFrameworks>
+		<AssemblyName>ManagedBass.ReplayGain.Tests</AssemblyName>
+		<OutputPath>..\distribution\</OutputPath>
+		<Version>0.0.1</Version>
+		<Platforms>AnyCPU</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="ManagedBass" Condition="'$(TargetFramework)' == 'net40'">
+			<HintPath>..\lib\net40\ManagedBass.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="ManagedBass" Condition="'$(TargetFramework)' == 'net461'">
+			<HintPath>..\lib\net461\ManagedBass.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Media\" />
+		<Folder Include="x64\" />
+		<Folder Include="x86\" />
+		<Folder Include="Properties\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\lib\x64\bass.dll" Link="x64\bass.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\lib\x86\bass.dll" Link="x86\bass.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\Media\01 Botanical Dimensions.m4a" Link="Media\01 Botanical Dimensions.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\02 Outer Shpongolia.m4a" Link="Media\02 Outer Shpongolia.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\03 Levitation Nation.m4a" Link="Media\03 Levitation Nation.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\04 Periscopes of Consciousness.m4a" Link="Media\04 Periscopes of Consciousness.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\05 Schmaltz Herring.m4a" Link="Media\05 Schmaltz Herring.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\06 Nothing Lasts....m4a" Link="Media\06 Nothing Lasts....m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\07 Shnitzled in the Negev.m4a" Link="Media\07 Shnitzled in the Negev.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\08 ...But Nothing Is Lost.m4a" Link="Media\08 ...But Nothing Is Lost.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\09 When Shall I Be Free_.m4a" Link="Media\09 When Shall I Be Free_.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\10 The Stamen of the Shamen.m4a" Link="Media\10 The Stamen of the Shamen.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\11 Circuits of the Imagination.m4a" Link="Media\11 Circuits of the Imagination.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\12 Linguistic Mystic.m4a" Link="Media\12 Linguistic Mystic.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\13 Mentalism.m4a" Link="Media\13 Mentalism.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\14 Invocation.m4a" Link="Media\14 Invocation.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\15 Molecular Superstructure.m4a" Link="Media\15 Molecular Superstructure.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\16 Turn Up the Silence.m4a" Link="Media\16 Turn Up the Silence.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\17 Exhalation.m4a" Link="Media\17 Exhalation.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\18 Connoisseur of Hallucinations.m4a" Link="Media\18 Connoisseur of Hallucinations.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\19 The Nebbish Route.m4a" Link="Media\19 The Nebbish Route.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Media\20 Falling Awake.m4a" Link="Media\20 Falling Awake.m4a">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+		<PackageReference Include="ManagedBass.ReplayGain" Version="0.2.0" />
+		<PackageReference Include="NUnit" Version="3.10.1" />
+		<PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ManagedBass.ReplayGain\ManagedBass.ReplayGain.csproj" />
+	</ItemGroup>
+
+</Project>

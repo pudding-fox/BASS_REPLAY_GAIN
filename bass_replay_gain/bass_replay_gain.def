@@ -1,0 +1,6 @@
+LIBRARY bass_replay_gain
+VERSION 2.4
+EXPORTS
+BASSplugin
+BASS_REPLAY_GAIN_Process
+BASS_REPLAY_GAIN_ProcessBatch
