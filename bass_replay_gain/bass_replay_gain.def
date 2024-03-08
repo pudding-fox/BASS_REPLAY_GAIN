@@ -4,3 +4,8 @@ EXPORTS
 BASSplugin
 BASS_REPLAY_GAIN_Process
 BASS_REPLAY_GAIN_ProcessBatch
+BASS_REPLAY_GAIN_CreateContext
+BASS_REPLAY_GAIN_PrepareSamples
+BASS_REPLAY_GAIN_ProcessSamples
+BASS_REPLAY_GAIN_GetResult
+BASS_REPLAY_GAIN_DestroyContext

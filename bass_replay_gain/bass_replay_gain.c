@@ -107,3 +107,56 @@ BOOL BASSDEF(BASS_REPLAY_GAIN_ProcessBatch)(HSTREAM Handles[BATCH_SLOTS], DWORD 
 
 	return TRUE;
 }
+
+BOOL BASSDEF(BASS_REPLAY_GAIN_CreateContext)(DWORD Channels, DWORD Rate, REPLAY_GAIN_CONTEXT** Context) {
+	*Context = calloc(1, sizeof(REPLAY_GAIN_CONTEXT));
+	if (!*Context) {
+		return FALSE;
+	}
+	if (!processor_init_contexts(*Context, 1, Channels, Rate)) {
+		BASS_REPLAY_GAIN_DestroyContext(Context);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+BOOL BASSDEF(BASS_REPLAY_GAIN_PrepareSamples)(REPLAY_GAIN_CONTEXT* Context, PFLOAT* Samples, DWORD Count) {
+	if (Context->sample_count != Count) {
+		if (Context->samples_input) {
+			free(Context->samples_input);
+		}
+		if (Context->samples_output) {
+			free(Context->samples_output);
+		}
+		Context->samples_input = calloc(Count, sizeof(FLOAT));
+		Context->samples_output = calloc(Count, sizeof(FLOAT));
+		Context->sample_count = Count;
+	}
+	memcpy(Context->samples_input, Samples, Count * sizeof(FLOAT));
+	return TRUE;
+}
+
+BOOL BASSDEF(BASS_REPLAY_GAIN_ProcessSamples)(REPLAY_GAIN_CONTEXT* Context, DWORD Count) {
+	return scanner_process_samples(Context, Count);
+}
+
+BOOL BASSDEF(BASS_REPLAY_GAIN_GetResult)(REPLAY_GAIN_CONTEXT* Context, REPLAY_GAIN_INFO* Result) {
+	if (!processor_calc_replaygain(Context, 1)) {
+		return FALSE;
+	}
+	Result->handle = 0;
+	Result->peak = Context->peak;
+	Result->gain = Context->gain;
+	return TRUE;
+}
+
+BOOL BASSDEF(BASS_REPLAY_GAIN_DestroyContext)(REPLAY_GAIN_CONTEXT* Context) {
+	if (Context->samples_input) {
+		free(Context->samples_input);
+	}
+	if (Context->samples_output) {
+		free(Context->samples_output);
+	}
+	free(Context);
+	return TRUE;
+}

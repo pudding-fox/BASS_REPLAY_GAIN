@@ -134,11 +134,13 @@ BOOL processor_process_samples(REPLAY_GAIN_CONTEXT* contexts, DWORD context_coun
 		//Assign the current buffers to the context.
 		contexts[position].samples_input = samples_input;
 		contexts[position].samples_output = samples_output;
+		contexts[position].sample_count = sample_count;
 		//Process them.
 		result = scanner_process_samples(&contexts[position], sample_count);
 		//Unassign the buffers as we will free them.
 		contexts[position].samples_input = NULL;
 		contexts[position].samples_output = NULL;
+		contexts[position].sample_count = 0;
 		if (!result) {
 			//This can't currently happen but we reserve the right to fail.
 #if _DEBUG

@@ -1,15 +1,15 @@
 #include "scanner.h"
 #include <math.h>
 
-typedef struct REPLAY_GAIN_INFO {
+typedef struct REPLAY_GAIN_FILTER {
 	DWORD sample_rate;
 	double BYule[11];
 	double AYule[11];
 	double BButter[3];
 	double AButter[3];
-} REPLAY_GAIN_INFO;
+} REPLAY_GAIN_FILTER;
 
-static const REPLAY_GAIN_INFO replay_gain_info[] =
+static const REPLAY_GAIN_FILTER replay_gain_info[] =
 {
 	{
 		192000,
@@ -167,7 +167,7 @@ BOOL scanner_init_context(REPLAY_GAIN_CONTEXT* context, DWORD channel_count, DWO
 		return FALSE;
 	}
 
-	//Look for the REPLAY_GAIN_INFO which matches the sample rate.
+	//Look for the REPLAY_GAIN_FILTER which matches the sample rate.
 	for (position = 0; position < 20; position++) {
 		if (replay_gain_info[position].sample_rate == sample_rate) {
 			//Found it.
@@ -189,6 +189,9 @@ BOOL scanner_init_context(REPLAY_GAIN_CONTEXT* context, DWORD channel_count, DWO
 	context->yule_coeff_b = replay_gain_info[position].BYule;
 	context->butter_coeff_a = replay_gain_info[position].AButter;
 	context->butter_coeff_b = replay_gain_info[position].BButter;
+
+	context->samples_input = NULL;
+	context->samples_output = NULL;
 
 	if (!context->is_initialized) {
 		context->yule_hist_position = 20;

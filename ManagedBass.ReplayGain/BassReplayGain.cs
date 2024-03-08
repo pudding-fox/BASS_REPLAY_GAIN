@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Drawing;
+using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace ManagedBass.ReplayGain
@@ -56,6 +58,46 @@ namespace ManagedBass.ReplayGain
         public static bool ProcessBatch(int[] Handles, out ReplayGainBatchInfo info)
         {
             return BASS_REPLAY_GAIN_ProcessBatch(Handles, Handles.Length, out info);
+        }
+
+        [DllImport(DllName)]
+        static extern bool BASS_REPLAY_GAIN_CreateContext(int Channels, int Rate, [Out] out IntPtr Context);
+
+        public static bool CreateContext(int Channels, int Rate, out IntPtr Context)
+        {
+            return BASS_REPLAY_GAIN_CreateContext(Channels, Rate, out Context);
+        }
+
+        [DllImport(DllName)]
+        static extern bool BASS_REPLAY_GAIN_PrepareSamples(IntPtr Context, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] float[] Samples, int Count);
+
+        public static bool PrepareSamples(IntPtr Context, float[] Samples, int Count)
+        {
+            return BASS_REPLAY_GAIN_PrepareSamples(Context, Samples, Count);
+        }
+
+        [DllImport(DllName)]
+        static extern bool BASS_REPLAY_GAIN_ProcessSamples(IntPtr Context, int Count);
+
+        public static bool ProcessSamples(IntPtr Context, int Count)
+        {
+            return BASS_REPLAY_GAIN_ProcessSamples(Context, Count);
+        }
+
+        [DllImport(DllName)]
+        static extern bool BASS_REPLAY_GAIN_GetResult(IntPtr Context, [Out] out ReplayGainInfo Result);
+
+        public static bool GetResult(IntPtr Context, out ReplayGainInfo Result)
+        {
+            return BASS_REPLAY_GAIN_GetResult(Context, out Result);
+        }
+
+        [DllImport(DllName)]
+        static extern bool BASS_REPLAY_GAIN_DestroyContext(IntPtr Context);
+
+        public static bool DestroyContext(IntPtr Context)
+        {
+            return BASS_REPLAY_GAIN_DestroyContext(Context);
         }
     }
 

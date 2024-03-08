@@ -87,6 +87,66 @@ namespace ManagedBass.ReplayGain.Tests
             Assert.AreEqual(Math.Round(expectation.Gain, 2), Math.Round(info.gain, 2));
         }
 
+
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
+        [TestCase(15)]
+        [TestCase(16)]
+        [TestCase(17)]
+        [TestCase(18)]
+        [TestCase(19)]
+        public void CanCalculateSamples(int number)
+        {
+            var info = new ReplayGainInfo();
+            var expectation = Expectations[number];
+            var handle = Bass.CreateStream(expectation.FileName, Flags: BassFlags.Decode | BassFlags.Float);
+            try
+            {
+                var channelInfo = default(ChannelInfo);
+                Assert.IsTrue(Bass.ChannelGetInfo(handle, out channelInfo));
+                var context = default(IntPtr);
+                Assert.IsTrue(BassReplayGain.CreateContext(channelInfo.Channels, channelInfo.Frequency, out context));
+                var buffer = new float[channelInfo.Frequency / 10];
+                try
+                {
+                    do
+                    {
+                        if (Bass.ChannelIsActive(handle) == PlaybackState.Stopped)
+                        {
+                            break;
+                        }
+                        var count = Bass.ChannelGetData(handle, buffer, buffer.Length * sizeof(float)) / sizeof(float);
+                        Assert.IsTrue(BassReplayGain.PrepareSamples(context, buffer, count));
+                        Assert.IsTrue(BassReplayGain.ProcessSamples(context, count));
+                        Assert.IsTrue(BassReplayGain.GetResult(context, out info));
+                    } while (true);
+                }
+                finally
+                {
+                    BassReplayGain.DestroyContext(context);
+                }
+            }
+            finally
+            {
+                Bass.StreamFree(handle);
+            }
+            Assert.AreEqual(Math.Round(expectation.Peak, 2), Math.Round(info.peak, 2));
+            Assert.AreEqual(Math.Round(expectation.Gain, 2), Math.Round(info.gain, 2));
+        }
+
         [TestCase(20, 0, 19)]
         public void CanCalculateAlbum(int number, int position, int count)
         {
